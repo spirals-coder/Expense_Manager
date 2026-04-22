@@ -8,15 +8,26 @@ connectDB();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// ✅ CORS (important for frontend connection)
+app.use(cors({
+  origin: "*"
+}));
+
+// ✅ Middleware
 app.use(express.json());
 
-// Routes
+// ✅ Routes
 app.use("/api", require("./routes/auth"));
 app.use("/api", require("./routes/expense"));
 
-// Dynamic port for deployment
+// ✅ Test route (optional but useful)
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
+// ✅ Dynamic port (Render compatible)
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
